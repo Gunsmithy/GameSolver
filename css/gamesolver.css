@@ -1,0 +1,7 @@
+@charset "utf-8";
+.nav.navbar-nav li #kakuroDropdown {
+	text-decoration: line-through;
+}
+.nav.navbar-nav li #kenkenDropdown {
+	text-decoration: line-through;
+}
