@@ -5,3 +5,41 @@
 .nav.navbar-nav li #kenkenDropdown {
 	text-decoration: line-through;
 }
+
+#puzzle_wrapper {
+  white-space: nowrap;
+  line-height: 0em;
+  font-family: "Times New Roman", Times, serif; }
+
+#puzzle_wrapper input {
+  border: 1px solid #bbbbbb;
+  margin: 0 0 0 0;
+  padding: 0 0 0 0;
+  width: 1em;
+  font-size: 25px; }
+
+#puzzle_wrapper .topborder {
+  border-top: 2px solid #000; }
+
+#puzzle_wrapper .botborder {
+  border-bottom: 2px solid #000; }
+
+#puzzle_wrapper .rightborder {
+  border-right: 2px solid #000; }
+
+#puzzle_wrapper .leftborder {
+  border-left: 2px solid #000; }
+
+#puzzle {
+  text-align: left;
+  display: inline-block; }
+
+.controls {
+  text-align: center; }
+
+.controls button {
+  padding: 6px 12px 6px 12px;
+  margin: 10px 5px 10px 5px; }
+
+#message {
+  height: 1em; }
