@@ -4,7 +4,6 @@
 <file name="index.html" server="waws-prod-blu-023.ftp.azurewebsites.windows.net/site/wwwroot/" local="130995128410000000" remote="130996602000000000" Dst="1" />
 <file name="LICENSE" server="waws-prod-blu-023.ftp.azurewebsites.windows.net/site/wwwroot/" local="130995088275250833" remote="130996602000000000" Dst="1" />
 <file name="README.md" server="waws-prod-blu-023.ftp.azurewebsites.windows.net/site/wwwroot/" local="130995088275250833" remote="130996602000000000" Dst="1" />
-<file name="sudokuSubmitBoard.html" server="waws-prod-blu-023.ftp.azurewebsites.windows.net/site/wwwroot/" local="130995128410000000" remote="130996602000000000" Dst="1" />
-<file name="sudokuSubmitBoard.php" server="waws-prod-blu-023.ftp.azurewebsites.windows.net/site/wwwroot/" local="130996490161337267" remote="130996669800000000" Dst="1" />
-<file name="phpFunctions.php" server="waws-prod-blu-023.ftp.azurewebsites.windows.net/site/wwwroot/" local="130996491890496786" remote="130996671600000000" Dst="1" />
+<file name="sudokuSubmitBoard.php" server="waws-prod-blu-023.ftp.azurewebsites.windows.net/site/wwwroot/" local="130996513092784082" remote="130996692600000000" Dst="1" />
+<file name="phpFunctions.php" server="waws-prod-blu-023.ftp.azurewebsites.windows.net/site/wwwroot/" local="130996497756976635" remote="130996678200000000" Dst="1" />
 </dwsync>
