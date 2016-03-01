@@ -7,19 +7,20 @@
 
 <body>
 <?php
-$serverName = "gamesolver-server.database.windows.net";   
-$uid = "gamesolveradmin";     
-$pwd = "65obddzdGFnX3aSe";    
-$databaseName = "gamesolver-db";
+require $_SERVER['DOCUMENT_ROOT']."/include/database.php";
    
 $connectionInfo = array( "UID"=>$uid,                              
                          "PWD"=>$pwd,                              
                          "Database"=>$databaseName);   
-    
+
+$whichOperation = htmlspecialchars($_GET["argument"]);
+
+if (strcmp($whichOperation, "submitBoard") == 0)
+{     
 /* Connect using SQL Server Authentication. */    
 $conn = sqlsrv_connect( $serverName, $connectionInfo);    
-$boardString = htmlspecialchars($_GET["argument"]);    
-$tsql = "INSERT INTO Boards VALUES ('$boardString', 0, 0, 0, 0, 0, 0)";
+$boardString = htmlspecialchars($_GET["boardString"]);    
+$tsql = "INSERT INTO Boards (Board) VALUES ('$boardString')";
     
 /* Execute the query. */    
     
@@ -33,17 +34,37 @@ else
 {    
      echo "Error in database statement execution.\n";    
      die( print_r( sqlsrv_errors(), true));    
-}    
+}
+
+}
+elseif (strcmp($whichOperation, "submitSolution") == 0)
+{
+	/* Connect using SQL Server Authentication. */    
+$conn = sqlsrv_connect( $serverName, $connectionInfo);    
+$startBoard = htmlspecialchars($_GET["startBoard"]);
+$endBoard = htmlspecialchars($_GET["endBoard"]);
+$combination = $startBoard . $endBoard;    
+$tsql = "INSERT INTO Boards (Board) VALUES ('$startBoard'); INSERT INTO Solutions (Combination, startBoard, endBoard) VALUES ('$combination','$startBoard','$endBoard')";
     
-/* Iterate through the result set printing a row of data upon each iteration.*/    
+/* Execute the query. */    
     
-while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_NUMERIC))    
+$stmt = sqlsrv_query( $conn, $tsql);    
+    
+if ( $stmt )    
 {    
-     echo "Col1: ".$row[0]."\n";    
-     echo "Col2: ".$row[1]."\n";    
-     echo "Col3: ".$row[2]."<br>\n";    
-     echo "-----------------<br>\n";    
-}    
+     echo "Database statement executed.<br>\n";    
+}     
+else     
+{    
+     echo "Error in database statement execution.\n";    
+     die( print_r( sqlsrv_errors(), true));    
+}
+}
+else
+{
+	echo "Unrecognized request to phpFunctions.\n";
+	echo "Request was:" . $whichOperation . "\n";
+}  
     
 /* Free statement and connection resources. */    
 sqlsrv_free_stmt( $stmt);    
