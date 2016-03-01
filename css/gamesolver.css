@@ -6,31 +6,31 @@
 	text-decoration: line-through;
 }
 
-#puzzle_wrapper {
+#puzzle_wrapper, #puzzle_wrapper2 {
   white-space: nowrap;
   line-height: 0em;
   font-family: "Times New Roman", Times, serif; }
 
-#puzzle_wrapper input {
+#puzzle_wrapper input, #puzzle_wrapper2 input {
   border: 1px solid #bbbbbb;
   margin: 0 0 0 0;
   padding: 0 0 0 0;
   width: 1em;
   font-size: 25px; }
 
-#puzzle_wrapper .topborder {
+#puzzle_wrapper .topborder, #puzzle_wrapper2 .topborder {
   border-top: 2px solid #000; }
 
-#puzzle_wrapper .botborder {
+#puzzle_wrapper .botborder, #puzzle_wrapper2 .botborder {
   border-bottom: 2px solid #000; }
 
-#puzzle_wrapper .rightborder {
+#puzzle_wrapper .rightborder, #puzzle_wrapper2 .rightborder {
   border-right: 2px solid #000; }
 
-#puzzle_wrapper .leftborder {
+#puzzle_wrapper .leftborder, #puzzle_wrapper2 .leftborder {
   border-left: 2px solid #000; }
 
-#puzzle {
+#puzzle, #puzzle2 {
   text-align: left;
   display: inline-block; }
 
