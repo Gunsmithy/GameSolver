@@ -34,13 +34,6 @@
 
 <body>
 
-<?php    
-$serverName = "gamesolver-server.database.windows.net";   
-$uid = "gamesolveradmin";     
-$pwd = "65obddzdGFnX3aSe";    
-$databaseName = "gamesolver-db";
-?>
-
     <!-- Navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
@@ -61,7 +54,7 @@ $databaseName = "gamesolver-db";
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sudoku</a>
                         <ul class="dropdown-menu">
             <li><a href="#">Browse Solutions</a></li>
-            <li><a href="#">Submit a Solution</a></li>
+            <li><a href="sudokuSubmitSolution.php">Submit a Solution</a></li>
             <li role="separator" class="divider"></li>
             <li><a href="#">Submit a Board</a></li>
             <li><a href="#">Request a Solution</a></li>
@@ -132,7 +125,7 @@ $databaseName = "gamesolver-db";
 		});
 		console.log( boardString );
 		
-		$.ajax({ url: 'phpFunctions.php?argument=' + boardString });
+		$.ajax({ url: 'phpFunctions.php?argument=submitBoard&boardString=' + boardString });
 	}
 	</script>
     
