@@ -355,6 +355,13 @@
 		});
 	}
 	</script>
+    
+    <script>
+    $( document ).ready(function() {
+    	$( "input" ).prop( "disabled", true );
+		firstSolution();
+	});
+	</script>
 
 </body>
 
