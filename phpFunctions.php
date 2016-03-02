@@ -13,13 +13,13 @@ $connectionInfo = array( "UID"=>$uid,
                          "PWD"=>$pwd,                              
                          "Database"=>$databaseName);   
 
-$whichOperation = htmlspecialchars($_GET["argument"]);
+$whichOperation = htmlspecialchars($_POST["argument"]);
 
 if (strcmp($whichOperation, "submitBoard") == 0)
 {     
 /* Connect using SQL Server Authentication. */    
 $conn = sqlsrv_connect( $serverName, $connectionInfo);    
-$boardString = htmlspecialchars($_GET["boardString"]);    
+$boardString = htmlspecialchars($_POST["boardString"]);    
 $tsql = "INSERT INTO Boards (Board) VALUES ('$boardString')";
     
 /* Execute the query. */    
@@ -40,25 +40,233 @@ else
 elseif (strcmp($whichOperation, "submitSolution") == 0)
 {
 	/* Connect using SQL Server Authentication. */    
-$conn = sqlsrv_connect( $serverName, $connectionInfo);    
-$startBoard = htmlspecialchars($_GET["startBoard"]);
-$endBoard = htmlspecialchars($_GET["endBoard"]);
-$combination = $startBoard . $endBoard;    
-$tsql = "INSERT INTO Boards (Board) VALUES ('$startBoard'); INSERT INTO Solutions (Combination, startBoard, endBoard) VALUES ('$combination','$startBoard','$endBoard')";
+	$conn = sqlsrv_connect( $serverName, $connectionInfo);    
+	$startBoard = htmlspecialchars($_POST["startBoard"]);
+	$endBoard = htmlspecialchars($_POST["endBoard"]);
+	$combination = $startBoard . $endBoard;    
+	$tsql = "INSERT INTO Boards (Board) VALUES ('$startBoard'); INSERT INTO Solutions (Combination, startBoard, endBoard) VALUES ('$combination','$startBoard','$endBoard')";
     
-/* Execute the query. */    
+	/* Execute the query. */    
     
-$stmt = sqlsrv_query( $conn, $tsql);    
+	$stmt = sqlsrv_query( $conn, $tsql);    
     
-if ( $stmt )    
-{    
-     echo "Database statement executed.<br>\n";    
-}     
-else     
-{    
-     echo "Error in database statement execution.\n";    
-     die( print_r( sqlsrv_errors(), true));    
+	if ( $stmt )    
+	{    
+    	 echo "Database statement executed.<br>\n";    
+	}     
+	else     
+	{    
+     	echo "Error in database statement execution.\n";    
+     	die( print_r( sqlsrv_errors(), true));    
+	}
 }
+elseif (strcmp($whichOperation, "firstBoard") == 0)
+{
+	/* Connect using SQL Server Authentication. */    
+	$conn = sqlsrv_connect( $serverName, $connectionInfo);     
+	$tsql = "SELECT TOP 1 Board FROM Boards";
+    
+	/* Execute the query. */    
+    
+	$stmt = sqlsrv_query( $conn, $tsql);    
+    
+	if ( $stmt )    
+	{    
+    	 echo "Database statement executed.<br>\n";
+		 sqlsrv_fetch( $stmt );
+		 echo "FirstBoard:" . sqlsrv_get_field( $stmt, 0);    
+	}     
+	else     
+	{    
+     	echo "Error in database statement execution.\n";    
+     	die( print_r( sqlsrv_errors(), true));    
+	}
+}
+elseif (strcmp($whichOperation, "lastBoard") == 0)
+{
+	/* Connect using SQL Server Authentication. */    
+	$conn = sqlsrv_connect( $serverName, $connectionInfo);     
+	$tsql = "SELECT TOP 1 Board FROM Boards ORDER BY Board DESC";
+    
+	/* Execute the query. */    
+    
+	$stmt = sqlsrv_query( $conn, $tsql);    
+    
+	if ( $stmt )    
+	{    
+    	 echo "Database statement executed.<br>\n";
+		 sqlsrv_fetch( $stmt );
+		 echo "LastBoard:" . sqlsrv_get_field( $stmt, 0);    
+	}     
+	else     
+	{    
+     	echo "Error in database statement execution.\n";    
+     	die( print_r( sqlsrv_errors(), true));    
+	}
+}
+elseif (strcmp($whichOperation, "previousBoard") == 0)
+{
+	/* Connect using SQL Server Authentication. */    
+	$conn = sqlsrv_connect( $serverName, $connectionInfo);
+	$currentBoard = htmlspecialchars($_POST["currentBoard"]);     
+	$tsql = "SELECT lagger.PreviousBoard FROM ( SELECT LAG(Board) OVER (ORDER BY Board) PreviousBoard, Board FROM Boards) lagger WHERE lagger.Board = '$currentBoard'";
+    
+	/* Execute the query. */    
+    
+	$stmt = sqlsrv_query( $conn, $tsql);    
+    
+	if ( $stmt )    
+	{    
+    	 echo "Database statement executed.<br>\n";
+		 if( sqlsrv_fetch( $stmt ) === true) {
+			$field = sqlsrv_get_field( $stmt, 0);
+			if( strcmp($field, "") != 0 ){
+		 		echo "PreviousBoard:" . $field;
+			}
+			else{
+				echo "Reached start of database!";
+			}
+		 }
+	}     
+	else     
+	{    
+     	echo "Error in database statement execution.\n";    
+     	die( print_r( sqlsrv_errors(), true));    
+	}
+}
+elseif (strcmp($whichOperation, "nextBoard") == 0)
+{
+	/* Connect using SQL Server Authentication. */    
+	$conn = sqlsrv_connect( $serverName, $connectionInfo);
+	$currentBoard = htmlspecialchars($_POST["currentBoard"]);      
+	$tsql = "SELECT leader.NextBoard FROM ( SELECT LEAD(Board) OVER (ORDER BY Board) NextBoard, Board FROM Boards) leader WHERE leader.Board = '$currentBoard'";
+    
+	/* Execute the query. */    
+    
+	$stmt = sqlsrv_query( $conn, $tsql);    
+    
+	if ( $stmt )    
+	{    
+    	 echo "Database statement executed.<br>\n";
+		 if( sqlsrv_fetch( $stmt ) === true) {
+			$field = sqlsrv_get_field( $stmt, 0); 
+			if( strcmp($field, "") != 0 ){
+		 		echo "NextBoard:" . $field;
+			}
+			else{
+				echo "Reached end of database!";
+			}
+		 }
+	}     
+	else     
+	{    
+     	echo "Error in database statement execution.\n";    
+     	die( print_r( sqlsrv_errors(), true));    
+	}
+}
+elseif (strcmp($whichOperation, "firstSolution") == 0)
+{
+	/* Connect using SQL Server Authentication. */    
+	$conn = sqlsrv_connect( $serverName, $connectionInfo);     
+	$tsql = "SELECT TOP 1 Combination FROM Solutions;";
+    
+	/* Execute the query. */    
+    
+	$stmt = sqlsrv_query( $conn, $tsql);    
+    
+	if ( $stmt )    
+	{    
+    	 echo "Database statement executed.<br>\n";
+		 sqlsrv_fetch( $stmt );
+		 echo "FirstSolution:" . sqlsrv_get_field( $stmt, 0);    
+	}     
+	else     
+	{    
+     	echo "Error in database statement execution.\n";    
+     	die( print_r( sqlsrv_errors(), true));    
+	}
+}
+elseif (strcmp($whichOperation, "lastSolution") == 0)
+{
+	/* Connect using SQL Server Authentication. */    
+	$conn = sqlsrv_connect( $serverName, $connectionInfo);     
+	$tsql = "SELECT TOP 1 Combination FROM Solutions ORDER BY Combination DESC;";
+    
+	/* Execute the query. */    
+    
+	$stmt = sqlsrv_query( $conn, $tsql);    
+    
+	if ( $stmt )    
+	{    
+    	 echo "Database statement executed.<br>\n";
+		 sqlsrv_fetch( $stmt );
+		 echo "LastSolution:" . sqlsrv_get_field( $stmt, 0);    
+	}     
+	else     
+	{    
+     	echo "Error in database statement execution.\n";    
+     	die( print_r( sqlsrv_errors(), true));    
+	}
+}
+elseif (strcmp($whichOperation, "previousSolution") == 0)
+{
+	/* Connect using SQL Server Authentication. */    
+	$conn = sqlsrv_connect( $serverName, $connectionInfo);
+	$currentSolution = htmlspecialchars($_POST["currentSolution"]);     
+	$tsql = "SELECT lagger.PreviousSolution FROM ( SELECT LAG(Combination) OVER (ORDER BY Combination) PreviousSolution, Combination FROM Solutions) lagger WHERE lagger.Combination = '$currentSolution'";
+    
+	/* Execute the query. */    
+    
+	$stmt = sqlsrv_query( $conn, $tsql);    
+    
+	if ( $stmt )    
+	{    
+    	 echo "Database statement executed.<br>\n";
+		 if( sqlsrv_fetch( $stmt ) === true) {
+			$field = sqlsrv_get_field( $stmt, 0);
+			if( strcmp($field, "") != 0 ){
+		 		echo "PreviousSolution:" . $field;
+			}
+			else{
+				echo "Reached start of database!";
+			}
+		 }
+	}     
+	else     
+	{    
+     	echo "Error in database statement execution.\n";    
+     	die( print_r( sqlsrv_errors(), true));    
+	}
+}
+elseif (strcmp($whichOperation, "nextSolution") == 0)
+{
+	/* Connect using SQL Server Authentication. */    
+	$conn = sqlsrv_connect( $serverName, $connectionInfo);
+	$currentSolution = htmlspecialchars($_POST["currentSolution"]);      
+	$tsql = "SELECT leader.NextSolution FROM ( SELECT LEAD(Combination) OVER (ORDER BY Combination) NextSolution, Combination FROM Solutions) leader WHERE leader.Combination = '$currentSolution'";
+    
+	/* Execute the query. */    
+    
+	$stmt = sqlsrv_query( $conn, $tsql);    
+    
+	if ( $stmt )    
+	{    
+    	 echo "Database statement executed.<br>\n";
+		 if( sqlsrv_fetch( $stmt ) === true) {
+			$field = sqlsrv_get_field( $stmt, 0); 
+			if( strcmp($field, "") != 0 ){
+		 		echo "NextSolution:" . $field;
+			}
+			else{
+				echo "Reached end of database!";
+			}
+		 }
+	}     
+	else     
+	{    
+     	echo "Error in database statement execution.\n";    
+     	die( print_r( sqlsrv_errors(), true));    
+	}
 }
 else
 {
