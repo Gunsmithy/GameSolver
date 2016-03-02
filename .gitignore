@@ -1,8 +1,6 @@
 include/database.php
 hostingstart.html
-include/_notes/dwsync.xml
-_notes/dwsync.xml
-js/_notes/dwsync.xml
-css/_notes/dwsync.xml
-_notes/dwsync.xml
-phpinfo.php
+include/_notes/
+js/_notes/
+css/_notes/
+_notes/
