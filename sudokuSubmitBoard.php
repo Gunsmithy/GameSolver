@@ -53,11 +53,11 @@
                     <li>
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sudoku</a>
                         <ul class="dropdown-menu">
-            <li><a href="#">Browse Solutions</a></li>
-            <li><a href="sudokuSubmitSolution.php">Submit a Solution</a></li>
+            <li><a href="sudokuBrowseBoards.php">Browse Boards</a></li>
+            <li><a href="sudokuBrowseSolutions.php">Browse Solutions</a></li>
             <li role="separator" class="divider"></li>
             <li><a href="#">Submit a Board</a></li>
-            <li><a href="#">Request a Solution</a></li>
+            <li><a href="sudokuSubmitSolution.php">Submit a Solution</a></li>
           </ul>
                     </li>
                     <li>
@@ -76,35 +76,59 @@
     <!-- Page Content -->
     <div class="container">
 
+<!-- Page Row -->
+<div class="row">
+
+<div class="col-lg-4">
+</div>
+
+<!-- Board Column -->
+<div class="col-lg-4 text-center">
+		<!-- Title Row -->
         <div class="row">
-            <div class="col-lg-12 text-center">
               <h1>Sudoku</h1>
               <p class="lead">Submit a Board</p>
+              <!-- /.Title Row -->
+        </div>
               
+              <!-- Board Row -->
+              <div class="row">
               <!-- Sudoku Board -->
               <div id="puzzle">
-<div id="puzzle_wrapper"><div><div><input maxlength="1" type="tel" class="scell topborder leftborder "><input maxlength="1" type="tel" class="scell topborder "><input maxlength="1" type="tel" class="scell topborder rightborder "><input maxlength="1" type="tel" class="scell topborder "><input maxlength="1" type="tel" class="scell topborder "><input maxlength="1" type="tel" class="scell topborder rightborder "><input maxlength="1" type="tel" class="scell topborder "><input maxlength="1" type="tel" class="scell topborder "><input maxlength="1" type="tel" class="scell topborder rightborder "></div><div><input maxlength="1" type="tel" class="scell leftborder "><input maxlength="1" type="tel" class="scell "><input maxlength="1" type="tel" class="scell rightborder "><input maxlength="1" type="tel" class="scell "><input maxlength="1" type="tel" class="scell "><input maxlength="1" type="tel" class="scell rightborder "><input maxlength="1" type="tel" class="scell "><input maxlength="1" type="tel" class="scell "><input maxlength="1" type="tel" class="scell rightborder "></div><div><input maxlength="1" type="tel" class="scell botborder leftborder "><input maxlength="1" type="tel" class="scell botborder "><input maxlength="1" type="tel" class="scell botborder rightborder "><input maxlength="1" type="tel" class="scell botborder "><input maxlength="1" type="tel" class="scell botborder "><input maxlength="1" type="tel" class="scell botborder rightborder "><input maxlength="1" type="tel" class="scell botborder "><input maxlength="1" type="tel" class="scell botborder "><input maxlength="1" type="tel" class="scell botborder rightborder "></div><div><input maxlength="1" type="tel" class="scell leftborder "><input maxlength="1" type="tel" class="scell "><input maxlength="1" type="tel" class="scell rightborder "><input maxlength="1" type="tel" class="scell "><input maxlength="1" type="tel" class="scell "><input maxlength="1" type="tel" class="scell rightborder "><input maxlength="1" type="tel" class="scell "><input maxlength="1" type="tel" class="scell "><input maxlength="1" type="tel" class="scell rightborder "></div><div><input maxlength="1" type="tel" class="scell leftborder "><input maxlength="1" type="tel" class="scell "><input maxlength="1" type="tel" class="scell rightborder "><input maxlength="1" type="tel" class="scell "><input maxlength="1" type="tel" class="scell "><input maxlength="1" type="tel" class="scell rightborder "><input maxlength="1" type="tel" class="scell "><input maxlength="1" type="tel" class="scell "><input maxlength="1" type="tel" class="scell rightborder "></div><div><input maxlength="1" type="tel" class="scell botborder leftborder "><input maxlength="1" type="tel" class="scell botborder "><input maxlength="1" type="tel" class="scell botborder rightborder "><input maxlength="1" type="tel" class="scell botborder "><input maxlength="1" type="tel" class="scell botborder "><input maxlength="1" type="tel" class="scell botborder rightborder "><input maxlength="1" type="tel" class="scell botborder "><input maxlength="1" type="tel" class="scell botborder "><input maxlength="1" type="tel" class="scell botborder rightborder "></div><div><input maxlength="1" type="tel" class="scell leftborder "><input maxlength="1" type="tel" class="scell "><input maxlength="1" type="tel" class="scell rightborder "><input maxlength="1" type="tel" class="scell "><input maxlength="1" type="tel" class="scell "><input maxlength="1" type="tel" class="scell rightborder "><input maxlength="1" type="tel" class="scell "><input maxlength="1" type="tel" class="scell "><input maxlength="1" type="tel" class="scell rightborder "></div><div><input maxlength="1" type="tel" class="scell leftborder "><input maxlength="1" type="tel" class="scell "><input maxlength="1" type="tel" class="scell rightborder "><input maxlength="1" type="tel" class="scell "><input maxlength="1" type="tel" class="scell "><input maxlength="1" type="tel" class="scell rightborder "><input maxlength="1" type="tel" class="scell "><input maxlength="1" type="tel" class="scell "><input maxlength="1" type="tel" class="scell rightborder "></div><div><input maxlength="1" type="tel" class="scell botborder leftborder "><input maxlength="1" type="tel" class="scell botborder "><input maxlength="1" type="tel" class="scell botborder rightborder "><input maxlength="1" type="tel" class="scell botborder "><input maxlength="1" type="tel" class="scell botborder "><input maxlength="1" type="tel" class="scell botborder rightborder "><input maxlength="1" type="tel" class="scell botborder "><input maxlength="1" type="tel" class="scell botborder "><input maxlength="1" type="tel" class="scell botborder rightborder "></div></div></div>
+<div id="puzzle_wrapper"><div><div><input maxlength="1" type="tel" class="scell topborder leftborder "><input maxlength="1" type="tel" class="scell topborder "><input maxlength="1" type="tel" class="scell topborder rightborder "><input maxlength="1" type="tel" class="scell topborder "><input maxlength="1" type="tel" class="scell topborder "><input maxlength="1" type="tel" class="scell topborder rightborder "><input maxlength="1" type="tel" class="scell topborder "><input maxlength="1" type="tel" class="scell topborder "><input maxlength="1" type="tel" class="scell topborder rightborder "></div><div><input maxlength="1" type="tel" class="scell leftborder "><input maxlength="1" type="tel" class="scell "><input maxlength="1" type="tel" class="scell rightborder "><input maxlength="1" type="tel" class="scell "><input maxlength="1" type="tel" class="scell "><input maxlength="1" type="tel" class="scell rightborder "><input maxlength="1" type="tel" class="scell "><input maxlength="1" type="tel" class="scell "><input maxlength="1" type="tel" class="scell rightborder "></div><div><input maxlength="1" type="tel" class="scell botborder leftborder "><input maxlength="1" type="tel" class="scell botborder "><input maxlength="1" type="tel" class="scell botborder rightborder "><input maxlength="1" type="tel" class="scell botborder "><input maxlength="1" type="tel" class="scell botborder "><input maxlength="1" type="tel" class="scell botborder rightborder "><input maxlength="1" type="tel" class="scell botborder "><input maxlength="1" type="tel" class="scell botborder "><input maxlength="1" type="tel" class="scell botborder rightborder "></div><div><input maxlength="1" type="tel" class="scell leftborder "><input maxlength="1" type="tel" class="scell "><input maxlength="1" type="tel" class="scell rightborder "><input maxlength="1" type="tel" class="scell "><input maxlength="1" type="tel" class="scell "><input maxlength="1" type="tel" class="scell rightborder "><input maxlength="1" type="tel" class="scell "><input maxlength="1" type="tel" class="scell "><input maxlength="1" type="tel" class="scell rightborder "></div><div><input maxlength="1" type="tel" class="scell leftborder "><input maxlength="1" type="tel" class="scell "><input maxlength="1" type="tel" class="scell rightborder "><input maxlength="1" type="tel" class="scell "><input maxlength="1" type="tel" class="scell "><input maxlength="1" type="tel" class="scell rightborder "><input maxlength="1" type="tel" class="scell "><input maxlength="1" type="tel" class="scell "><input maxlength="1" type="tel" class="scell rightborder "></div><div><input maxlength="1" type="tel" class="scell botborder leftborder "><input maxlength="1" type="tel" class="scell botborder "><input maxlength="1" type="tel" class="scell botborder rightborder "><input maxlength="1" type="tel" class="scell botborder "><input maxlength="1" type="tel" class="scell botborder "><input maxlength="1" type="tel" class="scell botborder rightborder "><input maxlength="1" type="tel" class="scell botborder "><input maxlength="1" type="tel" class="scell botborder "><input maxlength="1" type="tel" class="scell botborder rightborder "></div><div><input maxlength="1" type="tel" class="scell leftborder "><input maxlength="1" type="tel" class="scell "><input maxlength="1" type="tel" class="scell rightborder "><input maxlength="1" type="tel" class="scell "><input maxlength="1" type="tel" class="scell "><input maxlength="1" type="tel" class="scell rightborder "><input maxlength="1" type="tel" class="scell "><input maxlength="1" type="tel" class="scell "><input maxlength="1" type="tel" class="scell rightborder "></div><div><input maxlength="1" type="tel" class="scell leftborder "><input maxlength="1" type="tel" class="scell "><input maxlength="1" type="tel" class="scell rightborder "><input maxlength="1" type="tel" class="scell "><input maxlength="1" type="tel" class="scell "><input maxlength="1" type="tel" class="scell rightborder "><input maxlength="1" type="tel" class="scell "><input maxlength="1" type="tel" class="scell "><input maxlength="1" type="tel" class="scell rightborder "></div><div><input maxlength="1" type="tel" class="scell botborder leftborder "><input maxlength="1" type="tel" class="scell botborder "><input maxlength="1" type="tel" class="scell botborder rightborder "><input maxlength="1" type="tel" class="scell botborder "><input maxlength="1" type="tel" class="scell botborder "><input maxlength="1" type="tel" class="scell botborder rightborder "><input maxlength="1" type="tel" class="scell botborder "><input maxlength="1" type="tel" class="scell botborder "><input maxlength="1" type="tel" class="scell botborder rightborder "></div></div></div></div>
+<!-- /.Board Row -->
+</div>
 
+<!-- Alerts Row -->
+              <div class="row">
 <!-- Placeholder for responses from server -->
-<div id="message"></div>
+<div id="alerts"></div>
+<!-- /.Alerts Row -->
+</div>
 
+<!-- Buttons Row -->
+              <div class="row">
 <!-- Buttons to submit the board or clear it -->
 <div class="controls">
 <button id="submit_button" onclick="saveBoard()">Submit</button>
 <button id="clear_button" onclick="clearBoard()">Clear</button>
+<!-- /.Buttons-->
 </div>
+<!-- /.Buttons Row -->
 </div>
  
-              <ul class="list-unstyled">
-                <li>Bootstrap v3.3.6</li>
-                    <li>jQuery v1.11.1</li>
-                </ul>
-            </div>
-        </div>
-        <!-- /.row -->
+<!-- /.Board Column -->
+</div>
 
-    </div>
-    <!-- /.container -->
+<div class="col-lg-4">
+</div>
+
+<!-- /.Page Row -->
+</div>
+       
+<!-- /.container -->
+</div>
+    
 
     <!-- jQuery Version 1.11.1 -->
     <script src="js/jquery.js"></script>
@@ -125,7 +149,27 @@
 		});
 		console.log( boardString );
 		
-		$.ajax({ url: 'phpFunctions.php?argument=submitBoard&boardString=' + boardString });
+		$.ajax({
+			url: "phpFunctions.php",
+			data: {
+				argument: "submitBoard",
+				boardString: boardString
+			},
+			type: "POST",
+			dataType: "text",
+			success: function(text) {
+				$('#alerts').html('<div class="alert alert-info"><a class="close" data-dismiss="alert">×</a><span>'+text+'</span></div>');
+			},
+			error: function(xhr, status, errorThrown){
+				alert( "Sorry, there was a problem!" );
+        		console.log( "Error: " + errorThrown );
+        		console.log( "Status: " + status );
+        		console.dir( xhr );
+				$('#alerts').html('<div class="alert alert-danger"><a class="close" data-dismiss="alert">×</a><span>'+text+'</span></div>');
+			},
+			complete: function(xhr, status){
+			}
+			});
 	}
 	</script>
     

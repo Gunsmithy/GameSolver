@@ -54,10 +54,10 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sudoku</a>
                         <ul class="dropdown-menu">
             <li><a href="sudokuBrowseBoards.php">Browse Boards</a></li>
-            <li><a href="sudokuBrowseSolutions.php">Browse Solutions</a></li>
+            <li><a href="#">Browse Solutions</a></li>
             <li role="separator" class="divider"></li>
             <li><a href="sudokuSubmitBoard.php">Submit a Board</a></li>
-            <li><a href="#">Submit a Solution</a></li>
+            <li><a href="sudokuSubmitSolution.php">Submit a Solution</a></li>
           </ul>
                     </li>
                     <li>
@@ -81,7 +81,7 @@
         	<!-- Title Column-->
             <div class="col-lg-12 text-center">
               <h1>Sudoku</h1>
-              <p class="lead">Submit a Solution</p>
+              <p class="lead">Browse Solutions</p>
         <!-- /.Title Column -->     
         </div>
         <!-- /.Title Row -->
@@ -123,22 +123,35 @@
 </div>
     
 
-<!-- Alerts Row -->
-              <div class="row">
+<!-- Message Row-->
+<div class="row">
+
 <!-- Placeholder for responses from server -->
 <div id="alerts"></div>
-<!-- /.Alerts Row -->
+
+<!-- /.Message -->
 </div>
 
 <!-- Buttons Row -->
-              <div class="row">
-<!-- Buttons to submit the board or clear it -->
+<div class="row">
+<!-- Buttons to go to previous or next board -->
 <div class="controls">
-<button id="submit_button" onclick="saveBoard()">Submit</button>
-<button id="clear_button" onclick="clearBoard()">Clear</button>
+<button id="previous_button" onclick="previousSolution()">Previous</button>
+<button id="next_button" onclick="nextSolution()">Next</button>
 <!-- /.Buttons-->
 </div>
 <!-- /.Buttons Row -->
+</div>
+
+<!-- Buttons Row 2-->
+<div class="row">
+<!-- Buttons to go to first or last board -->
+<div class="controls">
+<button id="first_button" onclick="firstSolution()">First</button>
+<button id="last_button" onclick="lastSolution()">Last</button>
+<!-- /.Buttons 2-->
+</div>
+<!-- /.Buttons Row 2-->
 </div>
 
 	<!-- /.Page Container -->
@@ -152,40 +165,175 @@
     <script src="js/bootstrap.min.js"></script>
     
     <script>
-	function saveBoard() {
-		var startBoard = '';
-		var endBoard = '';
-    	$( "input" ).each( function( index, element ){
-			if ($( this ).val() != '') {
-				if (index < 81){
-    				startBoard = startBoard + $( this ).val();
-				}
-				else{
-					endBoard = endBoard + $( this ).val();
-				}
-			}
-			else {
-				if (index < 81){
-    				startBoard = startBoard + '0';
-				}
-				else{
-					endBoard = endBoard + '0';
-				}
-			}
-		});
-		console.log( startBoard );
-		console.log( endBoard );
+	function firstSolution() {		
 		$.ajax({
 			url: "phpFunctions.php",
 			data: {
-				argument: "submitSolution",
-				startBoard: startBoard,
-				endBoard: endBoard
+				argument: "firstSolution"
 			},
 			type: "POST",
 			dataType: "text",
 			success: function(text) {
 				$('#alerts').html('<div class="alert alert-info"><a class="close" data-dismiss="alert">×</a><span>'+text+'</span></div>');
+				var boardIndex = text.search("FirstSolution:");
+				if (boardIndex != -1){
+				var boardString = text.substr(boardIndex+14, 162);
+				console.log( boardString );
+    	$( "input" ).each( function( index, element ){
+			if (boardString.charAt(index) != '0') {
+    			$( this ).val(boardString.charAt(index));
+			}
+			else {
+				$( this ).val('');
+			}
+		});
+				}
+				else{
+				}
+			},
+			error: function(xhr, status, errorThrown){
+				alert( "Sorry, there was a problem!" );
+        		console.log( "Error: " + errorThrown );
+        		console.log( "Status: " + status );
+        		console.dir( xhr );
+				$('#alerts').html('<div class="alert alert-danger"><a class="close" data-dismiss="alert">×</a><span>'+text+'</span></div>');
+			},
+			complete: function(xhr, status){
+			}
+			});
+	}
+	</script>
+    
+    <script>
+	function lastSolution() {		
+		$.ajax({
+			url: "phpFunctions.php",
+			data: {
+				argument: "lastSolution"
+			},
+			type: "POST",
+			dataType: "text",
+			success: function(text) {
+				$('#alerts').html('<div class="alert alert-info"><a class="close" data-dismiss="alert">×</a><span>'+text+'</span></div>');
+				var boardIndex = text.search("LastSolution:");
+				if (boardIndex != -1){
+				var boardString = text.substr(boardIndex+13, 162);
+				console.log( boardString );
+    	$( "input" ).each( function( index, element ){
+			if (boardString.charAt(index) != '0') {
+    			$( this ).val(boardString.charAt(index));
+			}
+			else {
+				$( this ).val('');
+			}
+		});
+				}
+				else{
+				}
+			},
+			error: function(xhr, status, errorThrown){
+				alert( "Sorry, there was a problem!" );
+        		console.log( "Error: " + errorThrown );
+        		console.log( "Status: " + status );
+        		console.dir( xhr );
+				$('#alerts').html('<div class="alert alert-danger"><a class="close" data-dismiss="alert">×</a><span>'+text+'</span></div>');
+			},
+			complete: function(xhr, status){
+			}
+			});
+	}
+	</script>
+    
+    <script>
+	function previousSolution() {
+		var currentSolution = '';
+    	$( "input" ).each( function( index, element ){
+			if ($( this ).val() != '') {
+    		currentSolution = currentSolution + $( this ).val();
+			}
+			else {
+				currentSolution = currentSolution + '0';
+			}
+		});
+		console.log( currentSolution );
+				
+		$.ajax({
+			url: "phpFunctions.php",
+			data: {
+				argument: "previousSolution",
+				currentSolution: currentSolution
+			},
+			type: "POST",
+			dataType: "text",
+			success: function(text) {
+				$('#alerts').html('<div class="alert alert-info"><a class="close" data-dismiss="alert">×</a><span>'+text+'</span></div>');
+				var boardIndex = text.search("PreviousSolution:");
+				if (boardIndex != -1){
+				var boardString = text.substr(boardIndex+17, 162);
+				console.log( boardString );
+    	$( "input" ).each( function( index, element ){
+			if (boardString.charAt(index) != '0') {
+    			$( this ).val(boardString.charAt(index));
+			}
+			else {
+				$( this ).val('');
+			}
+		});
+				}
+				else{
+				}
+			},
+			error: function(xhr, status, errorThrown){
+				alert( "Sorry, there was a problem!" );
+        		console.log( "Error: " + errorThrown );
+        		console.log( "Status: " + status );
+        		console.dir( xhr );
+				$('#alerts').html('<div class="alert alert-danger"><a class="close" data-dismiss="alert">×</a><span>'+text+'</span></div>');
+			},
+			complete: function(xhr, status){
+			}
+			});
+	}
+	</script>
+    
+    <script>
+	function nextSolution() {		
+		var currentSolution = '';
+    	$( "input" ).each( function( index, element ){
+			if ($( this ).val() != '') {
+    		currentSolution = currentSolution + $( this ).val();
+			}
+			else {
+				currentSolution = currentSolution + '0';
+			}
+		});
+		console.log( currentSolution );
+		
+		$.ajax({
+			url: "phpFunctions.php",
+			data: {
+				argument: "nextSolution",
+				currentSolution: currentSolution
+			},
+			type: "POST",
+			dataType: "text",
+			success: function(text) {
+				$('#alerts').html('<div class="alert alert-info"><a class="close" data-dismiss="alert">×</a><span>'+text+'</span></div>');
+				var boardIndex = text.search("NextSolution:");
+				if (boardIndex != -1){
+				var boardString = text.substr(boardIndex+13, 162);
+				console.log( boardString );
+    	$( "input" ).each( function( index, element ){
+			if (boardString.charAt(index) != '0') {
+    			$( this ).val(boardString.charAt(index));
+			}
+			else {
+				$( this ).val('');
+			}
+		});
+				}
+				else{
+				}
 			},
 			error: function(xhr, status, errorThrown){
 				alert( "Sorry, there was a problem!" );
