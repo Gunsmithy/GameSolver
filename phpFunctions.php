@@ -19,7 +19,11 @@ if (strcmp($whichOperation, "submitBoard") == 0)
 {     
 /* Connect using SQL Server Authentication. */    
 $conn = sqlsrv_connect( $serverName, $connectionInfo);    
-$boardString = htmlspecialchars($_POST["boardString"]);    
+$boardString = htmlspecialchars($_POST["boardString"]);
+if (strcmp($boardString,"000000000000000000000000000000000000000000000000000000000000000000000000000000000") == 0){
+	echo "Empty board - Not submitted.";
+}
+else{
 $tsql = "INSERT INTO Boards (Board) VALUES ('$boardString')";
     
 /* Execute the query. */    
@@ -37,28 +41,38 @@ else
 }
 
 }
+
+}
 elseif (strcmp($whichOperation, "submitSolution") == 0)
 {
 	/* Connect using SQL Server Authentication. */    
 	$conn = sqlsrv_connect( $serverName, $connectionInfo);    
 	$startBoard = htmlspecialchars($_POST["startBoard"]);
 	$endBoard = htmlspecialchars($_POST["endBoard"]);
-	$combination = $startBoard . $endBoard;    
-	$tsql = "INSERT INTO Boards (Board) VALUES ('$startBoard'); INSERT INTO Solutions (Combination, startBoard, endBoard) VALUES ('$combination','$startBoard','$endBoard')";
-    
-	/* Execute the query. */    
-    
-	$stmt = sqlsrv_query( $conn, $tsql);    
-    
-	if ( $stmt )    
-	{    
-    	 echo "Database statement executed.<br>\n";    
-	}     
-	else     
-	{    
-     	echo "Error in database statement execution.\n";    
-     	die( print_r( sqlsrv_errors(), true));    
+	if (strcmp($startBoard,"000000000000000000000000000000000000000000000000000000000000000000000000000000000") == 0){
+		echo "Empty start board - Not submitted.";
 	}
+	else if (strcmp($endBoard,"000000000000000000000000000000000000000000000000000000000000000000000000000000000") == 0){
+		echo "Empty end board - Not submitted.";
+	}
+  	else{
+	  	$combination = $startBoard . $endBoard;    
+	  	$tsql = "INSERT INTO Boards (Board) VALUES ('$startBoard'); INSERT INTO Solutions (Combination, startBoard, endBoard) VALUES ('$combination','$startBoard','$endBoard')";
+	  
+	  	/* Execute the query. */    
+	  
+	  	$stmt = sqlsrv_query( $conn, $tsql);    
+	  
+	  	if ( $stmt )    
+	  	{    
+		   	echo "Database statement executed.<br>\n";    
+	  	}     
+	  	else     
+	  	{    
+		  	echo "Error in database statement execution.\n";    
+		  	die( print_r( sqlsrv_errors(), true));    
+	  	}
+  	}
 }
 elseif (strcmp($whichOperation, "firstBoard") == 0)
 {
