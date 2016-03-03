@@ -4,10 +4,10 @@
 <file name="index.html" server="waws-prod-blu-023.ftp.azurewebsites.windows.net/site/wwwroot/" local="131013892256180138" remote="131014073400000000" Dst="1" />
 <file name="LICENSE" server="waws-prod-blu-023.ftp.azurewebsites.windows.net/site/wwwroot/" local="130995088275250833" remote="131012181600000000" Dst="1" />
 <file name="README.md" server="waws-prod-blu-023.ftp.azurewebsites.windows.net/site/wwwroot/" local="130995088275250833" remote="131012181600000000" Dst="1" />
-<file name="sudokuSubmitBoard.php" server="waws-prod-blu-023.ftp.azurewebsites.windows.net/site/wwwroot/" local="131013892943106081" remote="131014072800000000" Dst="1" />
-<file name="phpFunctions.php" server="waws-prod-blu-023.ftp.azurewebsites.windows.net/site/wwwroot/" local="131013889882791378" remote="131014069800000000" Dst="1" />
-<file name="sudokuSubmitSolution.php" server="waws-prod-blu-023.ftp.azurewebsites.windows.net/site/wwwroot/" local="131013895090004946" remote="131014074600000000" Dst="1" />
-<file name="sudokuBrowseBoards.php" server="waws-prod-blu-023.ftp.azurewebsites.windows.net/site/wwwroot/" local="131013903605462036" remote="131014083000000000" Dst="1" />
-<file name=".gitignore" server="waws-prod-blu-023.ftp.azurewebsites.windows.net/site/wwwroot/" local="131012950422721855" remote="131013927600000000" Dst="1" />
-<file name="sudokuBrowseSolutions.php" server="waws-prod-blu-023.ftp.azurewebsites.windows.net/site/wwwroot/" local="131013903333069366" remote="131014083000000000" Dst="1" />
+<file name="sudokuSubmitBoard.php" server="waws-prod-blu-023.ftp.azurewebsites.windows.net/site/wwwroot/" local="131014431952286938" remote="131014611600000000" Dst="1" />
+<file name="phpFunctions.php" server="waws-prod-blu-023.ftp.azurewebsites.windows.net/site/wwwroot/" local="131014427877444391" remote="131014607400000000" Dst="1" />
+<file name="sudokuSubmitSolution.php" server="waws-prod-blu-023.ftp.azurewebsites.windows.net/site/wwwroot/" local="131014431998679760" remote="131014611600000000" Dst="1" />
+<file name="sudokuBrowseBoards.php" server="waws-prod-blu-023.ftp.azurewebsites.windows.net/site/wwwroot/" local="131014432052097533" remote="131014611600000000" Dst="1" />
+<file name=".gitignore" server="waws-prod-blu-023.ftp.azurewebsites.windows.net/site/wwwroot/" local="131013896878660178" remote="131014584600000000" Dst="1" />
+<file name="sudokuBrowseSolutions.php" server="waws-prod-blu-023.ftp.azurewebsites.windows.net/site/wwwroot/" local="131014432160053897" remote="131014611600000000" Dst="1" />
 </dwsync>

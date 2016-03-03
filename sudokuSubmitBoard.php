@@ -158,14 +158,14 @@
 			type: "POST",
 			dataType: "text",
 			success: function(text) {
-				$('#alerts').html('<div class="alert alert-info"><a class="close" data-dismiss="alert">×</a><span>'+text+'</span></div>');
+				$('#alerts').html('<div class="alert alert-info text-center"><a class="close" data-dismiss="alert">×</a><span>'+text+'</span></div>');
 			},
 			error: function(xhr, status, errorThrown){
 				alert( "Sorry, there was a problem!" );
         		console.log( "Error: " + errorThrown );
         		console.log( "Status: " + status );
         		console.dir( xhr );
-				$('#alerts').html('<div class="alert alert-danger"><a class="close" data-dismiss="alert">×</a><span>'+text+'</span></div>');
+				$('#alerts').html('<div class="alert alert-danger text-center"><a class="close" data-dismiss="alert">×</a><span>'+text+'</span></div>');
 			},
 			complete: function(xhr, status){
 			}
