@@ -157,21 +157,23 @@
 			type: "POST",
 			dataType: "text",
 			success: function(text) {
-				$('#alerts').html('<div class="alert alert-info"><a class="close" data-dismiss="alert">×</a><span>'+text+'</span></div>');
-				var boardIndex = text.search("FirstBoard:");
-				if (boardIndex != -1){
-				var boardString = text.substr(boardIndex+11, 81);
-				console.log( boardString );
-    	$( "input" ).each( function( index, element ){
-			if (boardString.charAt(index) != '0') {
-    			$( this ).val(boardString.charAt(index));
-			}
-			else {
-				$( this ).val('');
-			}
-		});
-				}
-				else{
+				if (text.search('SUCCESS') != -1){
+				  $('#alerts').html('<div class="alert alert-info text-center"><a class="close" data-dismiss="alert">×</a><span>First Board Received</span></div>');
+				  var boardIndex = text.search("FirstBoard:");
+				  if (boardIndex != -1){
+					  var boardString = text.substr(boardIndex+11, 81);
+					  console.log( boardString );
+					  $( "input" ).each( function( index, element ){
+						  if (boardString.charAt(index) != '0') {
+							  $( this ).val(boardString.charAt(index));
+						  }
+						  else {
+							  $( this ).val('');
+						  }
+					  });
+				  }
+				  else{
+				  }
 				}
 			},
 			error: function(xhr, status, errorThrown){
@@ -179,7 +181,7 @@
         		console.log( "Error: " + errorThrown );
         		console.log( "Status: " + status );
         		console.dir( xhr );
-				$('#alerts').html('<div class="alert alert-danger"><a class="close" data-dismiss="alert">×</a><span>'+text+'</span></div>');
+				$('#alerts').html('<div class="alert alert-danger text-center"><a class="close" data-dismiss="alert">×</a><span>'+text+'</span></div>');
 			},
 			complete: function(xhr, status){
 			}
@@ -197,7 +199,8 @@
 			type: "POST",
 			dataType: "text",
 			success: function(text) {
-				$('#alerts').html('<div class="alert alert-info"><a class="close" data-dismiss="alert">×</a><span>'+text+'</span></div>');
+				if (text.search('SUCCESS') != -1){
+				$('#alerts').html('<div class="alert alert-info text-center"><a class="close" data-dismiss="alert">×</a><span>Last Board Received</span></div>');
 				var boardIndex = text.search("LastBoard:");
 				if (boardIndex != -1){
 				var boardString = text.substr(boardIndex+10, 81);
@@ -213,13 +216,14 @@
 				}
 				else{
 				}
+				}
 			},
 			error: function(xhr, status, errorThrown){
 				alert( "Sorry, there was a problem!" );
         		console.log( "Error: " + errorThrown );
         		console.log( "Status: " + status );
         		console.dir( xhr );
-				$('#alerts').html('<div class="alert alert-danger"><a class="close" data-dismiss="alert">×</a><span>'+text+'</span></div>');
+				$('#alerts').html('<div class="alert alert-danger text-center"><a class="close" data-dismiss="alert">×</a><span>'+text+'</span></div>');
 			},
 			complete: function(xhr, status){
 			}
@@ -249,7 +253,8 @@
 			type: "POST",
 			dataType: "text",
 			success: function(text) {
-				$('#alerts').html('<div class="alert alert-info"><a class="close" data-dismiss="alert">×</a><span>'+text+'</span></div>');
+				if (text.search('SUCCESS') != -1){
+				$('#alerts').html('<div class="alert alert-info text-center"><a class="close" data-dismiss="alert">×</a><span>Previous Board Received</span></div>');
 				var boardIndex = text.search("PreviousBoard:");
 				if (boardIndex != -1){
 				var boardString = text.substr(boardIndex+14, 81);
@@ -265,13 +270,17 @@
 				}
 				else{
 				}
+				}
+				else if(text.search('START') != -1){
+					$('#alerts').html('<div class="alert alert-info text-center"><a class="close" data-dismiss="alert">×</a><span>Reached start of database!</span></div>');
+				}
 			},
 			error: function(xhr, status, errorThrown){
 				alert( "Sorry, there was a problem!" );
         		console.log( "Error: " + errorThrown );
         		console.log( "Status: " + status );
         		console.dir( xhr );
-				$('#alerts').html('<div class="alert alert-danger"><a class="close" data-dismiss="alert">×</a><span>'+text+'</span></div>');
+				$('#alerts').html('<div class="alert alert-danger text-center"><a class="close" data-dismiss="alert">×</a><span>'+text+'</span></div>');
 			},
 			complete: function(xhr, status){
 			}
@@ -301,7 +310,8 @@
 			type: "POST",
 			dataType: "text",
 			success: function(text) {
-				$('#alerts').html('<div class="alert alert-info"><a class="close" data-dismiss="alert">×</a><span>'+text+'</span></div>');
+				if (text.search('SUCCESS') != -1){
+				$('#alerts').html('<div class="alert alert-info text-center"><a class="close" data-dismiss="alert">×</a><span>Next Board Received</span></div>');
 				var boardIndex = text.search("NextBoard:");
 				if (boardIndex != -1){
 				var boardString = text.substr(boardIndex+10, 81);
@@ -317,13 +327,17 @@
 				}
 				else{
 				}
+				}
+				else if(text.search('END') != -1){
+					$('#alerts').html('<div class="alert alert-info text-center"><a class="close" data-dismiss="alert">×</a><span>Reached end of database!</span></div>');
+				}
 			},
 			error: function(xhr, status, errorThrown){
 				alert( "Sorry, there was a problem!" );
         		console.log( "Error: " + errorThrown );
         		console.log( "Status: " + status );
         		console.dir( xhr );
-				$('#alerts').html('<div class="alert alert-danger"><a class="close" data-dismiss="alert">×</a><span>'+text+'</span></div>');
+				$('#alerts').html('<div class="alert alert-danger text-center"><a class="close" data-dismiss="alert">×</a><span>'+text+'</span></div>');
 			},
 			complete: function(xhr, status){
 			}

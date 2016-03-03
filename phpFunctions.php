@@ -72,9 +72,8 @@ elseif (strcmp($whichOperation, "firstBoard") == 0)
     
 	if ( $stmt )    
 	{    
-    	 echo "Database statement executed.<br>\n";
 		 sqlsrv_fetch( $stmt );
-		 echo "FirstBoard:" . sqlsrv_get_field( $stmt, 0);    
+		 echo "SUCCESS - FirstBoard:" . sqlsrv_get_field( $stmt, 0);    
 	}     
 	else     
 	{    
@@ -94,9 +93,8 @@ elseif (strcmp($whichOperation, "lastBoard") == 0)
     
 	if ( $stmt )    
 	{    
-    	 echo "Database statement executed.<br>\n";
 		 sqlsrv_fetch( $stmt );
-		 echo "LastBoard:" . sqlsrv_get_field( $stmt, 0);    
+		 echo "SUCCESS - LastBoard:" . sqlsrv_get_field( $stmt, 0);    
 	}     
 	else     
 	{    
@@ -121,10 +119,10 @@ elseif (strcmp($whichOperation, "previousBoard") == 0)
 		 if( sqlsrv_fetch( $stmt ) === true) {
 			$field = sqlsrv_get_field( $stmt, 0);
 			if( strcmp($field, "") != 0 ){
-		 		echo "PreviousBoard:" . $field;
+		 		echo "SUCCESS - PreviousBoard:" . $field;
 			}
 			else{
-				echo "Reached start of database!";
+				echo "START - Reached start of database!";
 			}
 		 }
 	}     
@@ -151,10 +149,10 @@ elseif (strcmp($whichOperation, "nextBoard") == 0)
 		 if( sqlsrv_fetch( $stmt ) === true) {
 			$field = sqlsrv_get_field( $stmt, 0); 
 			if( strcmp($field, "") != 0 ){
-		 		echo "NextBoard:" . $field;
+		 		echo "SUCCESS - NextBoard:" . $field;
 			}
 			else{
-				echo "Reached end of database!";
+				echo "END - Reached end of database!";
 			}
 		 }
 	}     
@@ -176,9 +174,8 @@ elseif (strcmp($whichOperation, "firstSolution") == 0)
     
 	if ( $stmt )    
 	{    
-    	 echo "Database statement executed.<br>\n";
 		 sqlsrv_fetch( $stmt );
-		 echo "FirstSolution:" . sqlsrv_get_field( $stmt, 0);    
+		 echo "SUCCESS - FirstSolution:" . sqlsrv_get_field( $stmt, 0);    
 	}     
 	else     
 	{    
@@ -198,9 +195,8 @@ elseif (strcmp($whichOperation, "lastSolution") == 0)
     
 	if ( $stmt )    
 	{    
-    	 echo "Database statement executed.<br>\n";
 		 sqlsrv_fetch( $stmt );
-		 echo "LastSolution:" . sqlsrv_get_field( $stmt, 0);    
+		 echo "SUCCESS - LastSolution:" . sqlsrv_get_field( $stmt, 0);    
 	}     
 	else     
 	{    
@@ -225,10 +221,10 @@ elseif (strcmp($whichOperation, "previousSolution") == 0)
 		 if( sqlsrv_fetch( $stmt ) === true) {
 			$field = sqlsrv_get_field( $stmt, 0);
 			if( strcmp($field, "") != 0 ){
-		 		echo "PreviousSolution:" . $field;
+		 		echo "SUCCESS - PreviousSolution:" . $field;
 			}
 			else{
-				echo "Reached start of database!";
+				echo "START - Reached start of database!";
 			}
 		 }
 	}     
@@ -255,10 +251,10 @@ elseif (strcmp($whichOperation, "nextSolution") == 0)
 		 if( sqlsrv_fetch( $stmt ) === true) {
 			$field = sqlsrv_get_field( $stmt, 0); 
 			if( strcmp($field, "") != 0 ){
-		 		echo "NextSolution:" . $field;
+		 		echo "SUCCESS - NextSolution:" . $field;
 			}
 			else{
-				echo "Reached end of database!";
+				echo "END - Reached end of database!";
 			}
 		 }
 	}     
