@@ -53,11 +53,11 @@
                     <li>
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sudoku</a>
                         <ul class="dropdown-menu">
-            <li><a href="sudokuBrowseBoards.php">Browse Boards</a></li>
-            <li><a href="sudokuBrowseSolutions.php">Browse Solutions</a></li>
+            <li><a href="sudokuBrowseBoards.html">Browse Boards</a></li>
+            <li><a href="sudokuBrowseSolutions.html">Browse Solutions</a></li>
             <li role="separator" class="divider"></li>
             <li><a href="#">Submit a Board</a></li>
-            <li><a href="sudokuSubmitSolution.php">Submit a Solution</a></li>
+            <li><a href="sudokuSubmitSolution.html">Submit a Solution</a></li>
           </ul>
                     </li>
                     <li>
@@ -151,21 +151,25 @@
 		
 		$.ajax({
 			url: "phpFunctions.php",
-			data: {
-				argument: "submitBoard",
-				boardString: boardString
-			},
+			data: JSON.stringify( { argument : "submitBoard", boardString : boardString } ),
 			type: "POST",
-			dataType: "text",
-			success: function(text) {
-				$('#alerts').html('<div class="alert alert-info text-center"><a class="close" data-dismiss="alert">×</a><span>'+text+'</span></div>');
-			},
+			dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+			success: function(data) {
+                                console.log(data);
+				if (data.result === "SUCCESS"){
+                                    $('#alerts').html('<div class="alert alert-info text-center"><a class="close" data-dismiss="alert">×</a><span>Board Submitted!</span></div>');
+                                }
+                                else if (data.result === "EMPTY"){
+                                    $('#alerts').html('<div class="alert alert-info text-center"><a class="close" data-dismiss="alert">×</a><span>Board Empty - not submitted!</span></div>');
+                                }
+                        },
 			error: function(xhr, status, errorThrown){
 				alert( "Sorry, there was a problem!" );
         		console.log( "Error: " + errorThrown );
         		console.log( "Status: " + status );
         		console.dir( xhr );
-				$('#alerts').html('<div class="alert alert-danger text-center"><a class="close" data-dismiss="alert">×</a><span>'+text+'</span></div>');
+				$('#alerts').html('<div class="alert alert-danger text-center"><a class="close" data-dismiss="alert">×</a><span>Error! See Console!</span></div>');
 			},
 			complete: function(xhr, status){
 			}

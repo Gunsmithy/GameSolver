@@ -1,27 +1,22 @@
-<!doctype html>
-<html>
-<head>
-<meta charset="utf-8">
-<title>Untitled Document</title>
-</head>
-
-<body>
 <?php
 require $_SERVER['DOCUMENT_ROOT']."/include/database.php";
    
 $connectionInfo = array( "UID"=>$uid,                              
                          "PWD"=>$pwd,                              
-                         "Database"=>$databaseName);   
+                         "Database"=>$databaseName);
+$conn = NULL;
+$stmt = NULL;
 
-$whichOperation = htmlspecialchars($_POST["argument"]);
-
-if (strcmp($whichOperation, "submitBoard") == 0)
+if ($_SERVER['REQUEST_METHOD'] == 'POST')
+{
+  $data = json_decode(file_get_contents("php://input"));
+  if (strcmp($data->{'argument'}, "submitBoard") == 0)
 {     
 /* Connect using SQL Server Authentication. */    
 $conn = sqlsrv_connect( $serverName, $connectionInfo);    
-$boardString = htmlspecialchars($_POST["boardString"]);
+$boardString = $data->{'boardString'};
 if (strcmp($boardString,"000000000000000000000000000000000000000000000000000000000000000000000000000000000") == 0){
-	echo "Empty board - Not submitted.";
+	echo json_encode(array('result' => 'EMPTY'));
 }
 else{
 $tsql = "INSERT INTO Boards (Board) VALUES ('$boardString')";
@@ -32,7 +27,7 @@ $stmt = sqlsrv_query( $conn, $tsql);
     
 if ( $stmt )    
 {    
-     echo "Database statement executed.<br>\n";    
+     echo json_encode(array('result' => 'SUCCESS'));
 }     
 else     
 {    
@@ -43,17 +38,17 @@ else
 }
 
 }
-elseif (strcmp($whichOperation, "submitSolution") == 0)
+elseif (strcmp($data->{'argument'}, "submitSolution") == 0)
 {
 	/* Connect using SQL Server Authentication. */    
 	$conn = sqlsrv_connect( $serverName, $connectionInfo);    
-	$startBoard = htmlspecialchars($_POST["startBoard"]);
-	$endBoard = htmlspecialchars($_POST["endBoard"]);
+	$startBoard = $data->{'startBoard'};
+	$endBoard = $data->{'endBoard'};
 	if (strcmp($startBoard,"000000000000000000000000000000000000000000000000000000000000000000000000000000000") == 0){
-		echo "Empty start board - Not submitted.";
+		echo json_encode(array('result' => 'EMPTY1'));
 	}
 	else if (strcmp($endBoard,"000000000000000000000000000000000000000000000000000000000000000000000000000000000") == 0){
-		echo "Empty end board - Not submitted.";
+		echo json_encode(array('result' => 'EMPTY2'));
 	}
   	else{
 	  	$combination = $startBoard . $endBoard;    
@@ -65,7 +60,7 @@ elseif (strcmp($whichOperation, "submitSolution") == 0)
 	  
 	  	if ( $stmt )    
 	  	{    
-		   	echo "Database statement executed.<br>\n";    
+		   	echo json_encode(array('result' => 'SUCCESS'));
 	  	}     
 	  	else     
 	  	{    
@@ -74,9 +69,9 @@ elseif (strcmp($whichOperation, "submitSolution") == 0)
 	  	}
   	}
 }
-elseif (strcmp($whichOperation, "firstBoard") == 0)
-{
-	/* Connect using SQL Server Authentication. */    
+ elseif (strcmp($data->{'argument'}, "firstBoard") == 0)
+ {
+  /* Connect using SQL Server Authentication. */    
 	$conn = sqlsrv_connect( $serverName, $connectionInfo);     
 	$tsql = "SELECT TOP 1 Board FROM Boards";
     
@@ -87,17 +82,18 @@ elseif (strcmp($whichOperation, "firstBoard") == 0)
 	if ( $stmt )    
 	{    
 		 sqlsrv_fetch( $stmt );
-		 echo "SUCCESS - FirstBoard:" . sqlsrv_get_field( $stmt, 0);    
+                 header('Content-Type: application/json; charset=utf-8');
+                 echo json_encode(array('result' => 'SUCCESS', 'firstBoard' => sqlsrv_get_field( $stmt, 0)));
 	}     
 	else     
 	{    
      	echo "Error in database statement execution.\n";    
      	die( print_r( sqlsrv_errors(), true));    
 	}
-}
-elseif (strcmp($whichOperation, "lastBoard") == 0)
-{
-	/* Connect using SQL Server Authentication. */    
+ }
+ elseif (strcmp($data->{'argument'}, "lastBoard") == 0)
+ {
+  /* Connect using SQL Server Authentication. */    
 	$conn = sqlsrv_connect( $serverName, $connectionInfo);     
 	$tsql = "SELECT TOP 1 Board FROM Boards ORDER BY Board DESC";
     
@@ -108,19 +104,20 @@ elseif (strcmp($whichOperation, "lastBoard") == 0)
 	if ( $stmt )    
 	{    
 		 sqlsrv_fetch( $stmt );
-		 echo "SUCCESS - LastBoard:" . sqlsrv_get_field( $stmt, 0);    
+                 header('Content-Type: application/json; charset=utf-8');
+                 echo json_encode(array('result' => 'SUCCESS', 'lastBoard' => sqlsrv_get_field( $stmt, 0)));
 	}     
 	else     
 	{    
      	echo "Error in database statement execution.\n";    
      	die( print_r( sqlsrv_errors(), true));    
 	}
-}
-elseif (strcmp($whichOperation, "previousBoard") == 0)
+ }
+ elseif (strcmp($data->{'argument'}, "previousBoard") == 0)
 {
 	/* Connect using SQL Server Authentication. */    
 	$conn = sqlsrv_connect( $serverName, $connectionInfo);
-	$currentBoard = htmlspecialchars($_POST["currentBoard"]);     
+        $currentBoard = $data->{'currentBoard'};     
 	$tsql = "SELECT lagger.PreviousBoard FROM ( SELECT LAG(Board) OVER (ORDER BY Board) PreviousBoard, Board FROM Boards) lagger WHERE lagger.Board = '$currentBoard'";
     
 	/* Execute the query. */    
@@ -129,14 +126,13 @@ elseif (strcmp($whichOperation, "previousBoard") == 0)
     
 	if ( $stmt )    
 	{    
-    	 echo "Database statement executed.<br>\n";
 		 if( sqlsrv_fetch( $stmt ) === true) {
 			$field = sqlsrv_get_field( $stmt, 0);
 			if( strcmp($field, "") != 0 ){
-		 		echo "SUCCESS - PreviousBoard:" . $field;
+		 		echo json_encode(array('result' => 'SUCCESS', 'previousBoard' => $field));
 			}
 			else{
-				echo "START - Reached start of database!";
+				echo json_encode(array('result' => 'START'));
 			}
 		 }
 	}     
@@ -146,11 +142,11 @@ elseif (strcmp($whichOperation, "previousBoard") == 0)
      	die( print_r( sqlsrv_errors(), true));    
 	}
 }
-elseif (strcmp($whichOperation, "nextBoard") == 0)
+elseif (strcmp($data->{'argument'}, "nextBoard") == 0)
 {
 	/* Connect using SQL Server Authentication. */    
 	$conn = sqlsrv_connect( $serverName, $connectionInfo);
-	$currentBoard = htmlspecialchars($_POST["currentBoard"]);      
+	$currentBoard = $data->{'currentBoard'};      
 	$tsql = "SELECT leader.NextBoard FROM ( SELECT LEAD(Board) OVER (ORDER BY Board) NextBoard, Board FROM Boards) leader WHERE leader.Board = '$currentBoard'";
     
 	/* Execute the query. */    
@@ -159,14 +155,13 @@ elseif (strcmp($whichOperation, "nextBoard") == 0)
     
 	if ( $stmt )    
 	{    
-    	 echo "Database statement executed.<br>\n";
 		 if( sqlsrv_fetch( $stmt ) === true) {
 			$field = sqlsrv_get_field( $stmt, 0); 
 			if( strcmp($field, "") != 0 ){
-		 		echo "SUCCESS - NextBoard:" . $field;
+		 		echo json_encode(array('result' => 'SUCCESS', 'nextBoard' => $field));
 			}
 			else{
-				echo "END - Reached end of database!";
+				echo json_encode(array('result' => 'END'));
 			}
 		 }
 	}     
@@ -176,7 +171,7 @@ elseif (strcmp($whichOperation, "nextBoard") == 0)
      	die( print_r( sqlsrv_errors(), true));    
 	}
 }
-elseif (strcmp($whichOperation, "firstSolution") == 0)
+elseif (strcmp($data->{'argument'}, "firstSolution") == 0)
 {
 	/* Connect using SQL Server Authentication. */    
 	$conn = sqlsrv_connect( $serverName, $connectionInfo);     
@@ -189,7 +184,8 @@ elseif (strcmp($whichOperation, "firstSolution") == 0)
 	if ( $stmt )    
 	{    
 		 sqlsrv_fetch( $stmt );
-		 echo "SUCCESS - FirstSolution:" . sqlsrv_get_field( $stmt, 0);    
+                 header('Content-Type: application/json; charset=utf-8');
+                 echo json_encode(array('result' => 'SUCCESS', 'firstSolution' => sqlsrv_get_field( $stmt, 0)));
 	}     
 	else     
 	{    
@@ -197,7 +193,7 @@ elseif (strcmp($whichOperation, "firstSolution") == 0)
      	die( print_r( sqlsrv_errors(), true));    
 	}
 }
-elseif (strcmp($whichOperation, "lastSolution") == 0)
+elseif (strcmp($data->{'argument'}, "lastSolution") == 0)
 {
 	/* Connect using SQL Server Authentication. */    
 	$conn = sqlsrv_connect( $serverName, $connectionInfo);     
@@ -210,7 +206,8 @@ elseif (strcmp($whichOperation, "lastSolution") == 0)
 	if ( $stmt )    
 	{    
 		 sqlsrv_fetch( $stmt );
-		 echo "SUCCESS - LastSolution:" . sqlsrv_get_field( $stmt, 0);    
+		 header('Content-Type: application/json; charset=utf-8');
+                 echo json_encode(array('result' => 'SUCCESS', 'lastSolution' => sqlsrv_get_field( $stmt, 0)));
 	}     
 	else     
 	{    
@@ -218,11 +215,11 @@ elseif (strcmp($whichOperation, "lastSolution") == 0)
      	die( print_r( sqlsrv_errors(), true));    
 	}
 }
-elseif (strcmp($whichOperation, "previousSolution") == 0)
+elseif (strcmp($data->{'argument'}, "previousSolution") == 0)
 {
 	/* Connect using SQL Server Authentication. */    
 	$conn = sqlsrv_connect( $serverName, $connectionInfo);
-	$currentSolution = htmlspecialchars($_POST["currentSolution"]);     
+        $currentSolution = $data->{'currentSolution'};     
 	$tsql = "SELECT lagger.PreviousSolution FROM ( SELECT LAG(Combination) OVER (ORDER BY Combination) PreviousSolution, Combination FROM Solutions) lagger WHERE lagger.Combination = '$currentSolution'";
     
 	/* Execute the query. */    
@@ -231,14 +228,13 @@ elseif (strcmp($whichOperation, "previousSolution") == 0)
     
 	if ( $stmt )    
 	{    
-    	 echo "Database statement executed.<br>\n";
 		 if( sqlsrv_fetch( $stmt ) === true) {
 			$field = sqlsrv_get_field( $stmt, 0);
 			if( strcmp($field, "") != 0 ){
-		 		echo "SUCCESS - PreviousSolution:" . $field;
+		 		echo json_encode(array('result' => 'SUCCESS', 'previousSolution' => $field));
 			}
 			else{
-				echo "START - Reached start of database!";
+				echo json_encode(array('result' => 'START'));
 			}
 		 }
 	}     
@@ -248,11 +244,11 @@ elseif (strcmp($whichOperation, "previousSolution") == 0)
      	die( print_r( sqlsrv_errors(), true));    
 	}
 }
-elseif (strcmp($whichOperation, "nextSolution") == 0)
+elseif (strcmp($data->{'argument'}, "nextSolution") == 0)
 {
 	/* Connect using SQL Server Authentication. */    
 	$conn = sqlsrv_connect( $serverName, $connectionInfo);
-	$currentSolution = htmlspecialchars($_POST["currentSolution"]);      
+	$currentSolution = $data->{'currentSolution'};      
 	$tsql = "SELECT leader.NextSolution FROM ( SELECT LEAD(Combination) OVER (ORDER BY Combination) NextSolution, Combination FROM Solutions) leader WHERE leader.Combination = '$currentSolution'";
     
 	/* Execute the query. */    
@@ -261,14 +257,13 @@ elseif (strcmp($whichOperation, "nextSolution") == 0)
     
 	if ( $stmt )    
 	{    
-    	 echo "Database statement executed.<br>\n";
 		 if( sqlsrv_fetch( $stmt ) === true) {
 			$field = sqlsrv_get_field( $stmt, 0); 
 			if( strcmp($field, "") != 0 ){
-		 		echo "SUCCESS - NextSolution:" . $field;
+		 		echo json_encode(array('result' => 'SUCCESS', 'nextSolution' => $field));
 			}
 			else{
-				echo "END - Reached end of database!";
+				echo json_encode(array('result' => 'END'));
 			}
 		 }
 	}     
@@ -280,13 +275,19 @@ elseif (strcmp($whichOperation, "nextSolution") == 0)
 }
 else
 {
-	echo "Unrecognized request to phpFunctions.\n";
-	echo "Request was:" . $whichOperation . "\n";
+	echo "Argument does not match any known operation.\n";
 }  
-    
-/* Free statement and connection resources. */    
-sqlsrv_free_stmt( $stmt);    
-sqlsrv_close( $conn);    
+}
+else
+{
+	echo "Unrecognized request to phpFunctions.\n";
+}  
+
+/* Free statement and connection resources. */
+if( $stmt !== NULL ) {
+    sqlsrv_free_stmt( $stmt);
+}
+if( $conn !== NULL ) {
+    sqlsrv_close( $conn);
+}
 ?>
-</body>
-</html>
