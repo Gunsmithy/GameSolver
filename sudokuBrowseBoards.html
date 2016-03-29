@@ -54,10 +54,10 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sudoku</a>
                         <ul class="dropdown-menu">
             <li><a href="#">Browse Boards</a></li>
-            <li><a href="sudokuBrowseSolutions.php">Browse Solutions</a></li>
+            <li><a href="sudokuBrowseSolutions.html">Browse Solutions</a></li>
             <li role="separator" class="divider"></li>
-            <li><a href="sudokuSubmitBoard.php">Submit a Board</a></li>
-            <li><a href="sudokuSubmitSolution.php">Submit a Solution</a></li>
+            <li><a href="sudokuSubmitBoard.html">Submit a Board</a></li>
+            <li><a href="sudokuSubmitSolution.html">Submit a Solution</a></li>
           </ul>
                     </li>
                     <li>
@@ -148,40 +148,34 @@
     <script src="js/bootstrap.min.js"></script>
     
     <script>
-	function firstBoard() {		
+	function firstBoard() {
 		$.ajax({
 			url: "phpFunctions.php",
-			data: {
-				argument: "firstBoard"
-			},
+			data: JSON.stringify( { argument : "firstBoard" } ),
 			type: "POST",
-			dataType: "text",
-			success: function(text) {
-				if (text.search('SUCCESS') != -1){
-				  $('#alerts').html('<div class="alert alert-info text-center"><a class="close" data-dismiss="alert">×</a><span>First Board Received</span></div>');
-				  var boardIndex = text.search("FirstBoard:");
-				  if (boardIndex != -1){
-					  var boardString = text.substr(boardIndex+11, 81);
-					  console.log( boardString );
-					  $( "input" ).each( function( index, element ){
-						  if (boardString.charAt(index) != '0') {
-							  $( this ).val(boardString.charAt(index));
-						  }
-						  else {
-							  $( this ).val('');
-						  }
-					  });
-				  }
-				  else{
-				  }
+			dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        success: function(data) {
+                                console.log(data);
+				if (data.result === "SUCCESS"){
+                                    $('#alerts').html('<div class="alert alert-info text-center"><a class="close" data-dismiss="alert">×</a><span>First Board Received</span></div>');
+                                    var boardString = data.firstBoard;
+                                    $( "input" ).each( function( index, element ){
+                                        if (boardString.charAt(index) != '0') {
+                                            $( this ).val(boardString.charAt(index));
+                                        }
+                                        else {
+                                            $( this ).val('');
+                                        }
+                                    });
 				}
 			},
-			error: function(xhr, status, errorThrown){
-				alert( "Sorry, there was a problem!" );
-        		console.log( "Error: " + errorThrown );
-        		console.log( "Status: " + status );
-        		console.dir( xhr );
-				$('#alerts').html('<div class="alert alert-danger text-center"><a class="close" data-dismiss="alert">×</a><span>'+text+'</span></div>');
+                        error: function(xhr, status, errorThrown){
+                            alert( "Sorry, there was a problem!" );
+                            console.log( "Error: " + errorThrown );
+                            console.log( "Status: " + status );
+                            console.dir( xhr );
+                            $('#alerts').html('<div class="alert alert-danger text-center"><a class="close" data-dismiss="alert">×</a><span>Error! See Console!</span></div>');
 			},
 			complete: function(xhr, status){
 			}
@@ -193,37 +187,31 @@
 	function lastBoard() {		
 		$.ajax({
 			url: "phpFunctions.php",
-			data: {
-				argument: "lastBoard"
-			},
+			data: JSON.stringify( { argument : "lastBoard" } ),
 			type: "POST",
-			dataType: "text",
-			success: function(text) {
-				if (text.search('SUCCESS') != -1){
-				$('#alerts').html('<div class="alert alert-info text-center"><a class="close" data-dismiss="alert">×</a><span>Last Board Received</span></div>');
-				var boardIndex = text.search("LastBoard:");
-				if (boardIndex != -1){
-				var boardString = text.substr(boardIndex+10, 81);
-				console.log( boardString );
-    	$( "input" ).each( function( index, element ){
-			if (boardString.charAt(index) != '0') {
-    			$( this ).val(boardString.charAt(index));
-			}
-			else {
-				$( this ).val('');
-			}
-		});
-				}
-				else{
-				}
+			dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        success: function(data) {
+                                console.log(data);
+				if (data.result === "SUCCESS"){
+                                    $('#alerts').html('<div class="alert alert-info text-center"><a class="close" data-dismiss="alert">×</a><span>Last Board Received</span></div>');
+                                    var boardString = data.lastBoard;
+                                    $( "input" ).each( function( index, element ){
+                                        if (boardString.charAt(index) != '0') {
+                                            $( this ).val(boardString.charAt(index));
+                                        }
+                                        else {
+                                            $( this ).val('');
+                                        }
+                                    });
 				}
 			},
-			error: function(xhr, status, errorThrown){
-				alert( "Sorry, there was a problem!" );
-        		console.log( "Error: " + errorThrown );
-        		console.log( "Status: " + status );
-        		console.dir( xhr );
-				$('#alerts').html('<div class="alert alert-danger text-center"><a class="close" data-dismiss="alert">×</a><span>'+text+'</span></div>');
+                        error: function(xhr, status, errorThrown){
+                            alert( "Sorry, there was a problem!" );
+                            console.log( "Error: " + errorThrown );
+                            console.log( "Status: " + status );
+                            console.dir( xhr );
+                            $('#alerts').html('<div class="alert alert-danger text-center"><a class="close" data-dismiss="alert">×</a><span>Error! See Console!</span></div>');
 			},
 			complete: function(xhr, status){
 			}
@@ -246,18 +234,15 @@
 				
 		$.ajax({
 			url: "phpFunctions.php",
-			data: {
-				argument: "previousBoard",
-				currentBoard: currentBoard
-			},
+			data: JSON.stringify( { argument : "previousBoard", currentBoard: currentBoard } ),
 			type: "POST",
-			dataType: "text",
-			success: function(text) {
-				if (text.search('SUCCESS') != -1){
+			dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+			success: function(data) {
+                                console.log(data);
+				if (data.result === "SUCCESS"){
 				$('#alerts').html('<div class="alert alert-info text-center"><a class="close" data-dismiss="alert">×</a><span>Previous Board Received</span></div>');
-				var boardIndex = text.search("PreviousBoard:");
-				if (boardIndex != -1){
-				var boardString = text.substr(boardIndex+14, 81);
+				var boardString = data.previousBoard;
 				console.log( boardString );
     	$( "input" ).each( function( index, element ){
 			if (boardString.charAt(index) != '0') {
@@ -267,11 +252,8 @@
 				$( this ).val('');
 			}
 		});
-				}
-				else{
-				}
-				}
-				else if(text.search('START') != -1){
+            }
+				else if(data.result === "START"){
 					$('#alerts').html('<div class="alert alert-info text-center"><a class="close" data-dismiss="alert">×</a><span>Reached start of database!</span></div>');
 				}
 			},
@@ -280,7 +262,7 @@
         		console.log( "Error: " + errorThrown );
         		console.log( "Status: " + status );
         		console.dir( xhr );
-				$('#alerts').html('<div class="alert alert-danger text-center"><a class="close" data-dismiss="alert">×</a><span>'+text+'</span></div>');
+				$('#alerts').html('<div class="alert alert-danger text-center"><a class="close" data-dismiss="alert">×</a><span>Error! See Console!</span></div>');
 			},
 			complete: function(xhr, status){
 			}
@@ -303,18 +285,15 @@
 		
 		$.ajax({
 			url: "phpFunctions.php",
-			data: {
-				argument: "nextBoard",
-				currentBoard: currentBoard
-			},
+			data: JSON.stringify( { argument : "nextBoard", currentBoard: currentBoard } ),
 			type: "POST",
-			dataType: "text",
-			success: function(text) {
-				if (text.search('SUCCESS') != -1){
+			dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+			success: function(data) {
+                                console.log(data);
+				if (data.result === "SUCCESS"){
 				$('#alerts').html('<div class="alert alert-info text-center"><a class="close" data-dismiss="alert">×</a><span>Next Board Received</span></div>');
-				var boardIndex = text.search("NextBoard:");
-				if (boardIndex != -1){
-				var boardString = text.substr(boardIndex+10, 81);
+				var boardString = data.nextBoard;
 				console.log( boardString );
     	$( "input" ).each( function( index, element ){
 			if (boardString.charAt(index) != '0') {
@@ -325,10 +304,7 @@
 			}
 		});
 				}
-				else{
-				}
-				}
-				else if(text.search('END') != -1){
+				else if (data.result === "END"){
 					$('#alerts').html('<div class="alert alert-info text-center"><a class="close" data-dismiss="alert">×</a><span>Reached end of database!</span></div>');
 				}
 			},
@@ -337,19 +313,11 @@
         		console.log( "Error: " + errorThrown );
         		console.log( "Status: " + status );
         		console.dir( xhr );
-				$('#alerts').html('<div class="alert alert-danger text-center"><a class="close" data-dismiss="alert">×</a><span>'+text+'</span></div>');
+				$('#alerts').html('<div class="alert alert-danger text-center"><a class="close" data-dismiss="alert">×</a><span>Error! See Console!</span></div>');
 			},
 			complete: function(xhr, status){
 			}
 			});
-	}
-	</script>
-    
-    <script>
-	function clearBoard() {
-    	$( "input" ).each( function( index, element ){
-    		$( this ).val('')
-		});
 	}
 	</script>
     
@@ -360,7 +328,6 @@
 	});
 	</script>
     
-
 </body>
 
 </html>
